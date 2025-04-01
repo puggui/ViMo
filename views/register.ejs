@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="#">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+  <script src="/js/bootstrap.js"></script>
+  <title>Register</title>
+</head>
+
+<body>
+  <%- include('navbar'); -%>
+  <div class="container">
+    <%- include('flash'); -%>
+    <div class="d-flex justify-content-center">
+      <form class="card p-3" style="width: 30rem; margin-top: 7rem;" action="/register" method="POST">
+        <h1 class="mb-3 text-center">Register</h1>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="passwordInput" class="form-label">Password</label>
+          <input type="password" class="form-control" id="passwordInput" name="passwordInput">
+        </div>
+        <div class="mb-4">
+          <label for="passwordConfirm" class="form-label">Password Confirmation</label>
+          <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

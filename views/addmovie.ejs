@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="#">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+  <script src="/js/bootstrap.js"></script>
+  <title>Add Movie</title>
+</head>
+
+<body>
+  <%- include("navbar"); -%>
+
+    <div class="d-flex justify-content-center">
+      <form class="card p-3 needs-validation" style="width: 30rem; margin: 3rem 0 3rem 0;" action="/movie/add"
+        method="POST" enctype="multipart/form-data" novalidate>
+        <h1 class="mb-2 text-center">Add Movie</h1>
+        <div class="mb-2">
+          <label for="id" class="form-label">ID</label>
+          <input type="text" class="form-control" id="id" name="id" required>
+        </div>
+        <div class="mb-2">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-2">
+          <label for="director" class="form-label">Director</label>
+          <input type="text" class="form-control" id="director" name="director" required>
+        </div>
+        <div class="mb-2">
+          <label for="genre" class="form-label">Genre</label>
+          <input type="text" class="form-control" id="genre" name="genre" required>
+        </div>
+        <div class="mb-2">
+          <label for="year" class="form-label">Year</label>
+          <input type="number" class="form-control" id="year" name="year" required>
+        </div>
+        <div class="mb-2">
+          <label for="available" class="form-label">Available</label>
+          <input type="number" class="form-control" id="available" name="available" required>
+        </div>
+        <div class="mb-2">
+          <label for="plot" class="form-label">Plot</label>
+          <input type="text" class="form-control" id="plot" name="plot" required>
+        </div>
+        <div class="mb-4">
+          <label for="poster" class="form-label">Poster Upload</label>
+          <input type="file" class="form-control" id="poster" name="poster" accept="image/png, image/jpeg" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+      </form>
+    </div>
+    <script src="/js/needsValidation.js"></script>
+</body>
+
+</html>
