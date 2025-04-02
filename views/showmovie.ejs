@@ -36,10 +36,12 @@
                 <%= movie.MOVIE_PLOT %>
               </p>
               <button type="button" class="btn btn-primary">Add to Cart</button>
+              <% if (currentUser && currentUser.USER_ISADMIN) { %>
               <a href="/movie/<%= movie.MOVIE_ID %>/edit" class="btn btn-secondary">Edit</a>
               <form action="/movie/<%= movie.MOVIE_ID %>" method="POST" class="d-inline">
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
+              <% } %>
             </div>
           </div>
         </div>

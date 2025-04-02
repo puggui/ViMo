@@ -5,13 +5,14 @@ const mysql = require("mysql2");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
+const passport = require("passport")
+const LocalStrategy = require("passport-local")
+const bcrypt = require("bcryptjs")
 
 dotenv.config();
 
-const movies = require("./routes/movies")
-
+const movieRoutes = require("./routes/movies")
+const userRoutes = require("./routes/users")
 const ExpressError = require("./utils/ExpressError")
 const port=process.env.PORT;
 const app=express();
@@ -34,14 +35,52 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash());
 
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success")
-  res.locals.error = req.flash("error")
-  next();
+passport.use(
+  new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
+    try {
+      const [rows] = await connection.promise().query("SELECT * FROM User WHERE USER_EMAIL = ?", [email]);
+      if (rows.length === 0) {
+        return done(null, false, { message: "Incorrect email or password." });
+      }
+
+      const [user] = rows;
+      const isMatch = await bcrypt.compare(password, user.USER_PSWD_HASH);
+      if (!isMatch) {
+        return done(null, false, { message: "Incorrect email or password." });
+      }
+
+      return done(null, user);
+
+    } catch (err) {
+      return done(err);
+    }
+  })
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.USER_EMAIL);
+});
+
+passport.deserializeUser(async (email, done) => {
+  try {
+    const [rows] = await connection.promise().query("SELECT * FROM User WHERE USER_EMAIL = ?", [email]);
+    if (rows.length === 0) return done(null, false);
+    return done(null, rows[0]);
+  } catch (err) {
+    return done(err);
+  }
 });
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(passport.authenticate('session'));
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash("success")
+  res.locals.error = req.flash("error")
+  next();
+});
 
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
@@ -55,7 +94,7 @@ const connection = mysql.createConnection({
 
 connection.connect(function(err){
   if(err) throw err;
-  console.log(`Connected DB: ${process.env.DB_DATABASE}`);
+  console.log(`Connected DB: ${process.env.DB_DATABASE} in app.js`);
 });
 
 app.get("/", (req, res) => {
@@ -74,36 +113,8 @@ app.get("/aboutus", (req, res) => {
   res.render("aboutus.ejs")
 })
 
-app.get("/signin", (req, res) => {
-  res.render("signin.ejs")
-})
-
-app.get("/register", (req, res) => {
-  res.render("register.ejs")
-})
-
-app.post("/register", (req, res) => {
-  const {email, passwordInput, passwordConfirm} = req.body
-  if (passwordInput != passwordConfirm) {
-    res.send("passwords must match");
-    return;
-  }
-  // let sql = `INSERT INTO User (USER_EMAIL, USER_PSWD_HASH, USER_PSWD_SALT) VALUES ("${email}", "hash", "salt");`
-  let sql = `SELECT USER_EMAIL FROM User WHERE USER_EMAIL="${email}";`;
-  console.log(sql)
-  connection.query( sql, function (error, results) {
-    if (error) throw error;
-    if (results.length == 0) {
-      
-    } else {
-      res.send("that email is already registered")
-    }
-  });
-
-  res.send(req.body)
-})
-
-app.use('/movie', movies)
+app.use("/", userRoutes);
+app.use("/movie", movieRoutes);
 
 app.use((req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

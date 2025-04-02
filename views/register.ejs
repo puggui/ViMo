@@ -15,25 +15,30 @@
   <div class="container">
     <%- include('flash'); -%>
     <div class="d-flex justify-content-center">
-      <form class="card p-3" style="width: 30rem; margin-top: 7rem;" action="/register" method="POST">
+      <form class="card p-3 needs-validation" style="width: 30rem; margin-top: 7rem;" action="/register" method="POST" novalidate>
         <h1 class="mb-3 text-center">Register</h1>
         <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
           <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
           <label for="passwordInput" class="form-label">Password</label>
-          <input type="password" class="form-control" id="passwordInput" name="passwordInput">
+          <input type="password" class="form-control" id="passwordInput" name="passwordInput" required>
         </div>
         <div class="mb-4">
           <label for="passwordConfirm" class="form-label">Password Confirmation</label>
-          <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm">
+          <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" required>
         </div>
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
       </form>
     </div>
   </div>
+  <script src="/js/needsValidation.js"></script>
 </body>
 
 </html>
