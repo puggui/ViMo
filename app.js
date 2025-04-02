@@ -21,8 +21,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/", express.static("./node_modules/bootstrap/dist/"));
 
+const secret = process.env.SECRET || "thisshouldbeabettersecret"
 const sessionConfig = {
-  secret: 'thisshouldbeabettersecret!',
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -103,6 +104,10 @@ app.get("/", (req, res) => {
     if (error) throw error;
     res.render("home.ejs", {results})
   });
+})
+
+app.get("/cart", (req, res) => {
+  res.render("cart.ejs")
 })
 
 app.get("/contact", (req, res) => {
