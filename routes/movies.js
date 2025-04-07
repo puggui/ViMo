@@ -9,20 +9,9 @@ const { isAdmin } = require("../middleware")
 dotenv.config();
 
 const router = express.Router();
+const connection = require("../db");
 const { storage, cloudinary } = require("../cloudinary")
 const upload = multer({ storage })
-
-const connection = mysql.createConnection({
-  host : process.env.DB_HOST,
-  user : process.env.DB_USER,
-  password : process.env.DB_PASSWORD,
-  database : process.env.DB_DATABASE
-});
-
-connection.connect(function(err){
-  if(err) throw err;
-  console.log(`Connected DB: ${process.env.DB_DATABASE} in movies.js`);
-});
 
 router.get("/add", isAdmin, (req, res) => {
   res.render("addmovie.ejs");

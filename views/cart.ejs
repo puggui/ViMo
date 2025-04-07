@@ -12,21 +12,78 @@
 
 <body>
   <%- include("navbar"); -%>
-  <div class="container my-5">
-    <%- include('flash'); -%>
-    <h2 class="mb-5">Shopping Cart</h2>
+  <div class="container h-100">
+      <%- include('flash'); -%>
+      <% if (items.length !== 0) { %>
+      <div class="row d-flex justify-content-center align-items-center py-5">
+        <div class="col-12">
+          <div class="d-flex flex-column">
+            <!-- Cart Header -->
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+              <div class="h2">Shopping Bag</div>
+              <div class="">Total Items: <%= items.length %></div>
+            </div>
 
-    <div class="card mb-3 mx-auto" style="max-width: 720px;">
-      <div class="d-flex">
-        <img src="placeholder-poster.jpg" class="img-fluid rounded-start" alt="movie poster" style="width: 7rem;">
-        <div class="card-body ms-3">
-          <h4 class="card-title">Movie Title</h4>
-          <p class="card-text bold">$39.99</p>
-          <button type="button" class="btn btn-danger">Remove</button>
+            <!-- Cart Items List -->
+            <div class="d-flex flex-column">
+              <% items.forEach(item => { %>
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3" style="font-weight: 500;">
+                  <!-- Item Info -->
+                  <div class="d-flex align-items-center">
+                    <img src="<%= item.poster %>" class="img-fluid rounded-3" style="width: 120px;" alt="<%= item.name %>">
+                    <div class="ms-4">
+                      <p class="mb-2"><%= item.name %></p>
+                      <p class="mb-0"><%= item.director %></p>
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center">
+                    <p class="mb-0 ps-4" style="font-weight: 500;">Quantity: <%= item.quantity %></p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <p class="mb-0" style="font-weight: 500;">$<%= item.total_price %></p>
+                  </div>
+                  <!-- Delete Button -->
+                  <form action="/cart/delete/<%= item.item_id %>" method="POST" class="ms-3">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              <% }); %>
+            </div>
+
+            <!-- Checkout Summary -->
+            <div class="card mb-5 mb-lg-0" style="border-radius: 16px;">
+              <div class="card-body p-4">
+                  <div class="d-flex justify-content-between" style="font-weight: 500;">
+                    <p class="mb-2">Subtotal</p>
+                    <p class="mb-2">$<%= subtotal %></p>
+                  </div>
+
+                  <div class="d-flex justify-content-between" style="font-weight: 500;">
+                    <p class="mb-0">Shipping</p>
+                    <p class="mb-0">$2.99</p>
+                  </div>
+
+                  <hr class="my-4">
+
+                  <div class="d-flex justify-content-between mb-3" style="font-weight: 500;">
+                    <p class="mb-2">Total (tax included)</p>
+                    <p class="mb-2">$<%= subtotal + 2.99 %></p>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button  type="button" class="btn btn-primary">Checkout</button>
+                  </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <% } else { %>
+      <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+        <h1>No item in shopping cart</h1>
+      </div>
+      <% } %>
     </div>
-  </div>
 </body>
 
 </html>

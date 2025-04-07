@@ -1,18 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser")
 const dotenv = require("dotenv");
-const mysql = require("mysql2");
 const path = require("path");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport")
 const LocalStrategy = require("passport-local")
 const bcrypt = require("bcryptjs")
+const cookieSession = require('cookie-session');
 
 dotenv.config();
 
+const connection = require("./db")
 const movieRoutes = require("./routes/movies")
 const userRoutes = require("./routes/users")
+const cartRoutes = require("./routes/carts")
 const ExpressError = require("./utils/ExpressError")
 const port=process.env.PORT;
 const app=express();
@@ -20,6 +22,16 @@ const app=express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/", express.static("./node_modules/bootstrap/dist/"));
+
+const cookieSecret = process.env.COOKIE_SECRET || "cookie monster"
+app.use(cookieSession({
+  name: 'userPreferences', // Separate name to avoid conflict with express-session
+  secret: cookieSecret,
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  secure: false, // Set to true if using HTTPS
+  httpOnly: true,
+  sameSite: 'strict'
+}));
 
 const secret = process.env.SECRET || "thisshouldbeabettersecret"
 const sessionConfig = {
@@ -29,7 +41,8 @@ const sessionConfig = {
   cookie: {
       httpOnly: true,
       expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-      maxAge: 1000 * 60 * 60 * 24 * 7
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: false
   }
 }
 
@@ -86,28 +99,12 @@ app.use((req, res, next) => {
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
 
-const connection = mysql.createConnection({
-  host : process.env.DB_HOST,
-  user : process.env.DB_USER,
-  password : process.env.DB_PASSWORD,
-  database : process.env.DB_DATABASE
-});
-
-connection.connect(function(err){
-  if(err) throw err;
-  console.log(`Connected DB: ${process.env.DB_DATABASE} in app.js`);
-});
-
 app.get("/", (req, res) => {
   const sql = "SELECT * FROM Movie"
   connection.query( sql, function (error, results) {
     if (error) throw error;
     res.render("home.ejs", {results})
   });
-})
-
-app.get("/cart", (req, res) => {
-  res.render("cart.ejs")
 })
 
 app.get("/contact", (req, res) => {
@@ -119,6 +116,7 @@ app.get("/aboutus", (req, res) => {
 })
 
 app.use("/", userRoutes);
+app.use("/", cartRoutes);
 app.use("/movie", movieRoutes);
 
 app.use((req, res, next) => {
