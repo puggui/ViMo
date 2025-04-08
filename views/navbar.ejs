@@ -27,6 +27,17 @@
         <% } %>
       </ul>
       <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+        <form class="d-flex pe-3" role="search" action="/search" method="GET">
+          <select class="form-select me-2" name="option" style="width: 12rem;">
+            <option value="title">Search by title</option>
+            <option value="director">Search by director</option>
+            <option value="genre">Search by genre</option>
+            <option value="plot">Search by plot</option>
+          </select>
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" style="width: 13rem;" >
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+    
         <% if (!currentUser) { %>
         <li class="nav-item">
           <a class="nav-link" href="/register">Register</a>

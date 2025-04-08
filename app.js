@@ -15,6 +15,7 @@ const connection = require("./db")
 const movieRoutes = require("./routes/movies")
 const userRoutes = require("./routes/users")
 const cartRoutes = require("./routes/carts")
+const searchRoutes = require("./routes/search")
 const ExpressError = require("./utils/ExpressError")
 const port=process.env.PORT;
 const app=express();
@@ -118,6 +119,7 @@ app.get("/aboutus", (req, res) => {
 app.use("/", userRoutes);
 app.use("/", cartRoutes);
 app.use("/movie", movieRoutes);
+app.use("/", searchRoutes);
 
 app.use((req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

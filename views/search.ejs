@@ -7,7 +7,7 @@
   <link rel="shortcut icon" href="#">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
   <script src="/js/bootstrap.js"></script>
-  <title>Home</title>
+  <title>Search</title>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
     <div class="container">
       <%- include('flash'); -%>
         <div id="trending" class="my-5">
-          <h2>All Movies</h2>
+          <h2>Searching by <%= option %> for: <%= query %></h2>
           <div class="d-flex p-2 justify-content-center flex-wrap">
             <% for (let res of results) { %>
               <div class="movie-card m-3" style="width: 13.5rem;">
