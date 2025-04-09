@@ -20,7 +20,13 @@ router.get("/search", async (req, res) => {
       [results] = await connection.promise().query(`SELECT * FROM Movie WHERE MOVIE_PLOT LIKE '%${query}%'`)
       break;
     default:
-      [results] = await connection.promise().query(`SELECT * FROM Movie WHERE MOVIE_TITLE LIKE '%${query}%'`)
+      [results] = await connection.promise().query(`
+        SELECT * FROM Movie 
+        WHERE MOVIE_TITLE LIKE '%${query}%' 
+        OR MOVIE_PLOT LIKE '%${query}%'
+        OR MOVIE_DIRECTOR LIKE '%${query}%'
+        OR MOVIE_GENRE LIKE '%${query}%'
+        `)
   }
   res.render("search.ejs", { query, option, results })
 })

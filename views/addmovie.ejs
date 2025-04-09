@@ -14,13 +14,9 @@
   <%- include("navbar"); -%>
 
     <div class="d-flex justify-content-center">
-      <form class="card p-3 needs-validation" style="width: 30rem; margin: 3rem 0 3rem 0;" action="/movie/add"
+      <form class="card border-0 p-3 needs-validation" style="width: 30rem; margin: 3rem 0 3rem 0;" action="/movie/add"
         method="POST" enctype="multipart/form-data" novalidate>
         <h1 class="mb-2 text-center">Add Movie</h1>
-        <div class="mb-2">
-          <label for="id" class="form-label">ID</label>
-          <input type="text" class="form-control" id="id" name="id" required>
-        </div>
         <div class="mb-2">
           <label for="title" class="form-label">Title</label>
           <input type="text" class="form-control" id="title" name="title" required>
@@ -42,6 +38,13 @@
           <input type="number" class="form-control" id="available" name="available" required>
         </div>
         <div class="mb-2">
+          <label for="price" class="form-label">Price</label>
+          <div class="input-group">
+            <span class="input-group-text" id="price">$</span>
+            <input type="number" class="form-control" id="price" step="0.01" name="price" required>
+          </div>
+        </div>
+        <div class="mb-2">
           <label for="plot" class="form-label">Plot</label>
           <input type="text" class="form-control" id="plot" name="plot" required>
         </div>
@@ -49,8 +52,7 @@
           <label for="poster" class="form-label">Poster Upload</label>
           <input type="file" class="form-control" id="poster" name="poster" accept="image/png, image/jpeg" required>
         </div>
-
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        <button type="submit" class="btn btn-primary" >Submit</button>
       </form>
     </div>
     <script src="/js/needsValidation.js"></script>

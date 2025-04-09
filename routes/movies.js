@@ -1,10 +1,12 @@
 const express = require("express");
 const multer  = require('multer')
 const dotenv = require("dotenv");
-const mysql = require("mysql2");
 
 // middlewares
 const { isAdmin } = require("../middleware")
+
+// utils
+const { generateMovieID } = require("../utils/generateMovieID");
 
 dotenv.config();
 
@@ -18,16 +20,19 @@ router.get("/add", isAdmin, (req, res) => {
 })
 
 // add movie POST
-router.post("/add", isAdmin, upload.single("poster"), (req, res) => {
-  const {path, filename} = req.file;
-  const {id, title, director, genre, year, available, plot} = req.body
-  const sql = `INSERT INTO Movie (MOVIE_ID, MOVIE_TITLE, MOVIE_DIRECTOR, MOVIE_GENRE, MOVIE_YEAR, MOVIE_AVAILABLE, MOVIE_POSTER, MOVIE_PLOT, MOVIE_FILENAME) VALUES 
-  ("${id}", "${title}", "${director}", "${genre}", ${year}, ${available}, "${path}", "${plot}", "${filename}");`
-  connection.query( sql, function (error, results) {
-    if (error) throw error;
+// add price field
+router.post("/add", isAdmin, upload.single("poster"), async (req, res) => {
+  try {
+    const {path, filename} = req.file;
+    const {title, director, genre, year, available, plot, price} = req.body
+    const id = await generateMovieID(connection);
+    const sql = "INSERT INTO Movie (MOVIE_ID, MOVIE_TITLE, MOVIE_DIRECTOR, MOVIE_GENRE, MOVIE_YEAR, MOVIE_AVAILABLE, MOVIE_POSTER, MOVIE_PLOT, MOVIE_FILENAME, MOVIE_PRICE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+    await connection.promise().query(sql, [id, title, director, genre, year, available, path, plot, filename, price ])
     req.flash("success", "Successfully added a new movie")
     res.redirect(`/movie/${id}`)
-  });
+  } catch (e) {
+    throw e;
+  }
 })
 
 // delete movie POST
@@ -45,7 +50,7 @@ router.post("/:id", isAdmin, async (req, res, next) => {
       console.log(`Deleting file from Cloudinary: ${filename}`);
       await cloudinary.uploader.destroy(filename);
     } else {
-      console.warn("No filename found in database. Skipping Cloudinary deletion.");
+      console.log("No filename found in database. Skipping Cloudinary deletion.");
     }
     await connection.promise().query(`DELETE FROM Movie WHERE MOVIE_ID = ?`, [id]);
     req.flash("success", "Successfully deleted a movie");
@@ -84,7 +89,7 @@ router.get("/:id/edit", isAdmin, (req, res) => {
 // edit movie POST
 router.post("/:id/edit", isAdmin, upload.single("poster"), (req, res) => {
   const id = req.params.id
-  const {title, director, genre, year, available, plot} = req.body
+  const {title, director, genre, year, available, plot, price} = req.body
   const {path, filename} = req.file;
   
   // delete existing movie poster
@@ -93,15 +98,12 @@ router.post("/:id/edit", isAdmin, upload.single("poster"), (req, res) => {
     if (error) throw error;
     const filename = results[0].MOVIE_FILENAME
     cloudinary.uploader.destroy(filename)
+    console.log("deleted old image")
   });
 
   // update movie
-  const sql = `
-  UPDATE Movie
-  SET MOVIE_TITLE = "${title}", MOVIE_DIRECTOR = "${director}", MOVIE_GENRE = "${genre}", MOVIE_YEAR = ${year}, MOVIE_AVAILABLE = ${available}, MOVIE_POSTER = "${path}", MOVIE_PLOT = "${plot}", MOVIE_FILENAME = "${filename}"
-  WHERE MOVIE_ID = "${id}";
-  `
-  connection.query( sql, function (error, results) {
+  const sql = "UPDATE Movie SET MOVIE_TITLE = ?, MOVIE_DIRECTOR = ?, MOVIE_GENRE = ?, MOVIE_YEAR = ?, MOVIE_AVAILABLE = ?, MOVIE_POSTER = ?, MOVIE_PLOT = ?, MOVIE_FILENAME = ?, MOVIE_PRICE = ? WHERE MOVIE_ID = ?;"
+  connection.query( sql, [title, director, genre, year, available, path, plot, filename, price, id], function (error, results) {
     if (error) throw error;
     req.flash("success", "Successfully updated movie")
     res.redirect(`/movie/${id}`)

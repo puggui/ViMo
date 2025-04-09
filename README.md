@@ -1,5 +1,5 @@
 # ViMo
-Vimo is an online retail store for vintage movie rentals. 
+ViMo is an online retail store for vintage movie rentals. 
 ## Run it locally
 1. Create a cloudinary account to get an API key and secret code
 2. Create an sql database with the ``` movieapp.sql ``` file
@@ -20,3 +20,7 @@ CLOUDINARY_KEY=<key>
 CLOUDINARY_SECRET=<secret>
 ```
 7. Finally, go to localhost:3030.
+
+## Functionality
+* To access the admin panel, use the email ```admin@gmail.com``` and password ```admin``` 
+* Users can add items to the cart without having to be registered. Once the register, the cart will carry over into their account.

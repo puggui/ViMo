@@ -22,8 +22,9 @@ CREATE TABLE Cart (
   CONSTRAINT PK_Cart PRIMARY KEY (cart_id)
 );
 
-INSERT INTO Cart (cart_id) VALUES 
-("86d1a7c4");
+INSERT INTO Cart (cart_id, user_email) VALUES 
+("75d1a7c4", "pugi@gmail.com"),
+("86d1a7c4", "admin@gmail.com");
 
 -- CartItems table
 CREATE TABLE CartItems (
@@ -37,8 +38,8 @@ CREATE TABLE CartItems (
 );
 
 INSERT INTO CartItems (cart_id, item_id, quantity) VALUES 
-("86d1a7c4", "tt0096283", 1),
-("86d1a7c4", "tt0110912", 1);
+("75d1a7c4", "tt0096283", 1),
+("75d1a7c4", "tt0110912", 1);
 
 CREATE TABLE Movie (
 	MOVIE_ID varchar(30) NOT NULL,
