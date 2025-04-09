@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="#">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
   <script src="/js/bootstrap.js"></script>
   <title>Sign In</title>
 </head>
@@ -15,7 +16,7 @@
     <div class="container">
       <%- include('flash'); -%>
       <div class="d-flex justify-content-center">
-        <form class="card p-3 needs-validation" style="width: 30rem; margin-top: 7rem;" action="/signin" method="POST" novalidate>
+        <form class="card p-3 needs-validation w-30rem mt-7rem border-0" action="/signin" method="POST" novalidate>
           <h1 class="mb-3 text-center">Sign In</h1>
           <div class="mb-3">
             <label for="email" class="form-label">Email address</label>

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="#">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
   <script src="/js/bootstrap.js"></script>
   <title>Search</title>
 </head>
@@ -37,10 +38,9 @@
         <div id="" class="mt-2 mb-5">
           <div class="d-flex p-2 justify-content-center flex-wrap">
             <% for (let res of results) { %>
-              <div class="movie-card m-3" style="width: 13.5rem;">
+              <div class="movie-card m-3 w-135rem">
                 <a href="/movie/<%= res.MOVIE_ID %>" class="text-decoration-none text-body">
-                  <img src="<%= res.MOVIE_POSTER %>" class="card-img-top mb-2" alt="..."
-                    style="width: 13.5rem; height: 20rem;">
+                  <img src="<%= res.MOVIE_POSTER %>" class="card-img-top mb-2 h-20rem" alt="...">
                     <p class="card-title"><strong><%= res.MOVIE_TITLE %></strong></p>
                 </a>
               </div>
