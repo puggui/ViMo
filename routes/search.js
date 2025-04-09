@@ -4,7 +4,7 @@ const { deserializeUser } = require("passport");
 
 const router = express.Router();
 
-router.get("/search", async (req, res) => {
+router.get("/", async (req, res) => {
   const { query, title, director, plot, genre } = req.query;
   console.log(req.query);
 

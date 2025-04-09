@@ -14,27 +14,27 @@
   <%- include('navbar'); -%>
     <div class="container">
       <%- include('flash'); -%>
-      <form class="d-flex justify-content-center flex-wrap pt-4" role="search" action="/search" method="GET">
-        <div class="me-2">
+      <form class="d-flex justify-content-center flex-wrap pt-4" role="search" action="/" method="GET">
+        <div class="me-2 mb-2">
           <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off" name="title" <% if (title) { %>checked<% } %>>
           <label class="btn" for="btn-check-1">Title</label>
         </div>
-        <div class="me-2">
+        <div class="me-2 mb-2">
           <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off" name="director" <% if (director) { %>checked<% } %>>
           <label class="btn" for="btn-check-2">Director</label>
         </div>
-        <div class="me-2">
+        <div class="me-2 mb-2">
           <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off" name="plot" <% if (plot) { %>checked<% } %>>
           <label class="btn" for="btn-check-3">Plot</label>
         </div>
-        <div class="me-2">
+        <div class="me-2 mb-2">
           <input type="checkbox" class="btn-check" id="btn-check-4" autocomplete="off" name="genre" <% if (genre) { %>checked<% } %>>
           <label class="btn" for="btn-check-4">Genre</label>
         </div>
-        <input class="form-control border border-black" type="search" placeholder="Search" aria-label="Search" name="query" style="width: 20rem;" value="<%= query %>" >
+        <input class="form-control border border-black me-2 mb-2" type="search" placeholder="Search" aria-label="Search" name="query" style="width: 20rem;" value="<%= query %>" >
         
       </form>
-        <div id="" class="my-5">
+        <div id="" class="mt-2 mb-5">
           <div class="d-flex p-2 justify-content-center flex-wrap">
             <% for (let res of results) { %>
               <div class="movie-card m-3" style="width: 13.5rem;">

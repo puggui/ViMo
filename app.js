@@ -100,14 +100,6 @@ app.use((req, res, next) => {
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
 
-app.get("/", (req, res) => {
-  const sql = "SELECT * FROM Movie"
-  connection.query( sql, function (error, results) {
-    if (error) throw error;
-    res.render("home.ejs", {results})
-  });
-})
-
 app.get("/contact", (req, res) => {
   res.render("contact.ejs")
 })
