@@ -1,3 +1,10 @@
+// Testing searching for a movie
+// method: GET
+// URL: http://localhost:3030/
+// query params:
+//    query       nolan
+//    director    on
+
 const express = require("express");
 const connection = require("../db");
 const { deserializeUser } = require("passport");

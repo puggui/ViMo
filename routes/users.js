@@ -1,3 +1,10 @@
+// Testing signing in to an admin account
+// method: POST
+// URL: http://localhost:3030/signin
+// body: x-www-form-urlencoded
+//    email       admin@gmail.com
+//    password    admin
+
 const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
