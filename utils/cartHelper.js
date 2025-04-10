@@ -1,4 +1,5 @@
 const connection = require("../db");
+const {generateCartID} = require("./generateCartID")
 
 module.exports.assignCartToUser = async (req) => {
   try {
@@ -21,7 +22,12 @@ module.exports.assignCartToUser = async (req) => {
       return;
     } else {
       // No cart found for the user, so we need to generate a new cart_id
-      cartID = req.session.cartID
+      cartID = req.session.cartID 
+      if (!cartID) {
+        cartID = await generateCartID(connection)
+      }
+      console.log("cartID", cartID)
+
       req.session.cartID = cartID;
 
       // Insert the new cart into the Cart table for the user

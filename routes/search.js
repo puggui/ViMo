@@ -13,7 +13,6 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const { query, title, director, plot, genre } = req.query;
-  console.log(req.query);
 
   let sql = "SELECT * FROM Movie";
   const conditions = [];
