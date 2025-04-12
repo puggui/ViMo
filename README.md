@@ -24,3 +24,6 @@ CLOUDINARY_SECRET=<secret>
 ## Functionality
 * To access the admin panel, use the email ```admin@gmail.com``` and password ```admin``` 
 * Users can add items to the cart without having to be registered. Once the register, the cart will carry over into their account.
+
+## The website is live here!
+check out the webiste https://vimo.onrender.com/
