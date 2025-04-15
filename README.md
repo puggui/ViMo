@@ -1,5 +1,6 @@
 # ViMo
 ViMo is an online retail store for vintage movie rentals. 
+![home page of the ViMo webiste](./homepage.png)
 ## Run it locally
 1. Create a cloudinary account to get an API key and secret code
 2. Create an sql database with the ``` movieapp.sql ``` file
@@ -26,4 +27,6 @@ CLOUDINARY_SECRET=<secret>
 * Users can add items to the cart without having to be registered. Once the register, the cart will carry over into their account.
 
 ## The website is live here!
-check out the webiste https://vimo.onrender.com/
+check out the webiste https://vimo.onrender.com/<br />
+Note that the webiste is hosted on a free instance so with inactivity, the site will be down, which can delay requests by 1 minute or more.<br />
+If you can access the site rightaway, please try again in about 1 minute. 
